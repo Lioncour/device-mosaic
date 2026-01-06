@@ -3,7 +3,8 @@ const { parse } = require('url');
 const next = require('next');
 const { Server } = require('socket.io');
 
-const dev = process.env.NODE_ENV !== 'production';
+// Force production mode if NODE_ENV is not explicitly set
+const dev = process.env.NODE_ENV === 'development';
 const hostname = process.env.HOSTNAME || '0.0.0.0';
 const port = parseInt(process.env.PORT || '3000', 10);
 

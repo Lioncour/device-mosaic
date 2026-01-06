@@ -1,7 +1,9 @@
 [build]
 builder = "nixpacks"
+buildCommand = "npm install && npm run build"
 
 [deploy]
 type = "web"
 healthcheck = "/health"
+runCommand = "NODE_ENV=production node server.js"
 
