@@ -3,5 +3,5 @@ builder = "nixpacks"
 
 [deploy]
 type = "web"
-healthcheck = "/"
+healthcheck = "/health"
 

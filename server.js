@@ -49,6 +49,13 @@ const getOrCreateRoom = (roomId) => {
 app.prepare().then(() => {
   const httpServer = createServer(async (req, res) => {
     try {
+      // Health check endpoint
+      if (req.url === '/health' || req.url === '/') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('OK');
+        return;
+      }
+      
       const parsedUrl = parse(req.url, true);
       await handle(req, res, parsedUrl);
     } catch (err) {
@@ -244,11 +251,16 @@ app.prepare().then(() => {
 
   httpServer
     .once('error', (err) => {
-      console.error(err);
+      console.error('Server error:', err);
       process.exit(1);
     })
     .listen(port, '0.0.0.0', () => {
       console.log(`> Ready on http://0.0.0.0:${port}`);
+      console.log(`> Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`> Port: ${port}`);
     });
+}).catch((err) => {
+  console.error('Failed to prepare Next.js app:', err);
+  process.exit(1);
 });
 
