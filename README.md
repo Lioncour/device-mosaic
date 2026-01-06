@@ -4,11 +4,14 @@ A web-based application that allows you to create a distributed video wall acros
 
 ## Features
 
+- **Identify Mode**: Each client gets a unique high-contrast color and ID number for easy visual matching
 - Upload images or videos on a Host device
 - Connect multiple Client devices (phones/tablets)
 - Arrange Client devices digitally to match physical layout
 - Split video/image across all Client screens in real-time
 - Synchronized playback control
+- Client rotation support (rotate device UI 90 degrees)
+- Proper image scaling based on actual media dimensions
 
 ## Getting Started
 
@@ -28,14 +31,20 @@ npm run dev
 
 1. **Host Device (Laptop/Desktop):**
    - Navigate to `/host` or click "Join as Host"
-   - Upload an image or video file
-   - Wait for Client devices to connect
+   - Wait for Client devices to connect (they'll appear with unique colors and ID numbers)
+   - In **Identify Mode**: Match the colored boxes on screen to your physical devices
    - Drag and arrange the client rectangles to match your physical layout
+   - Use the "Rotate" button on client devices if needed
+   - Toggle to **Live Mode** when ready
+   - Upload an image or video file
+   - The media will be split across all client devices
 
 2. **Client Devices (Phones/Tablets):**
    - Navigate to the same URL
    - Click "Join as Screen" or navigate to `/client`
-   - The device will automatically connect and display its portion of the video/image
+   - In **Identify Mode**: See your unique color and ID number
+   - Click "Rotate" to rotate the UI 90 degrees if needed
+   - In **Live Mode**: The device will automatically display its portion of the video/image
 
 ## How It Works
 
@@ -56,11 +65,13 @@ npm run dev
 
 ### Key Features
 
-1. **Room Management**: Single room system (can be extended to multiple rooms)
-2. **Layout Synchronization**: Real-time updates when host drags client rectangles
-3. **Media Synchronization**: Video playback is synchronized across all clients
-4. **Viewport Reporting**: Clients automatically report their screen dimensions
-5. **Rotation Support**: Host can rotate client rectangles to match physical device orientation
+1. **Identify Mode**: Unique colors and IDs for each client for easy visual matching
+2. **Room Management**: Single room system (can be extended to multiple rooms)
+3. **Layout Synchronization**: Real-time updates when host drags client rectangles
+4. **Media Synchronization**: Video playback is synchronized across all clients
+5. **Viewport Reporting**: Clients automatically report their screen dimensions
+6. **Rotation Support**: Both host and client can rotate (host rotates layout, client rotates UI)
+7. **Smart Scaling**: Images scale correctly based on actual media dimensions
 
 ### Calibration Workflow
 
@@ -79,9 +90,34 @@ The project uses:
 - **Tailwind CSS** for styling
 - **Socket.io** for real-time communication
 
+## Deployment
+
+### Railway (Recommended)
+
+1. Create a Railway account at [railway.app](https://railway.app)
+2. Create a new project and connect your GitHub repository
+3. Railway will automatically detect the Node.js app and deploy it
+4. Set the `PORT` environment variable (Railway provides this automatically)
+5. Your app will be live at a Railway-provided URL
+
+### Alternative: Render
+
+1. Create a Render account at [render.com](https://render.com)
+2. Create a new Web Service
+3. Connect your GitHub repository
+4. Set build command: `npm install && npm run build`
+5. Set start command: `node server.js`
+6. Deploy!
+
+### Environment Variables
+
+- `PORT`: Server port (defaults to 3000, Railway/Render set this automatically)
+- `NODE_ENV`: Set to `production` in production
+
 ## Notes
 
 - The default canvas size is 1920x1080, but can be adjusted in the Host view
 - For production, consider using Redis or a database for room state persistence
 - The current implementation uses a single room; extend to support multiple rooms if needed
+- **Note**: GitHub Pages won't work for this app as it requires a Node.js server with Socket.IO
 
